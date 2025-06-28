@@ -2,6 +2,12 @@
 
 A modern, full-stack real-time chat application built with React, Node.js, Socket.IO, and MongoDB. Features include real-time messaging, user authentication, group chats, typing indicators, and more.
 
+## Quick Links
+
+- [Frontend Documentation](./client/README.md)
+- [Deployment Guide](./DEPLOYMENT.md)
+- [Next-Gen Features Roadmap](./NEXTGEN_FEATURES.md)
+
 ## 🚀 Features
 
 - **Real-time Messaging**: Instant message delivery using Socket.IO
