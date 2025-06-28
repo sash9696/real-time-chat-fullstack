@@ -64,11 +64,11 @@ Create a `.env` file in the `server` directory:
 ```env
 MONGO_DB_URL=mongodb://localhost:27017/chat-app
 # OR for MongoDB Atlas:
-# MONGO_DB_URL=mongodb+srv://username:password@cluster.mongodb.net/chat-app
+# MONGO_DB_URL=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>
 
 BASE_URL=http://localhost:5173
 PORT=3000
-SECRET=your_jwt_secret_key_here
+SECRET=<your_jwt_secret_key_here>
 ```
 
 ### 4. Start the Application
@@ -114,7 +114,7 @@ POST /register
 {
   "name": "John Doe",
   "email": "john@example.com",
-  "password": "password123",
+  "password": "<your_password>",
   "profilePic": "https://example.com/avatar.jpg"
 }
 ```
@@ -126,7 +126,7 @@ curl -X POST http://localhost:3000/register \
   -d '{
     "name": "John Doe",
     "email": "john@example.com",
-    "password": "password123",
+    "password": "<your_password>",
     "profilePic": "https://example.com/avatar.jpg"
   }'
 ```
@@ -142,7 +142,7 @@ curl -X POST http://localhost:3000/register \
     "email": "john@example.com",
     "profilePic": "https://example.com/avatar.jpg"
   },
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  "token": "<jwt_token_here>"
 }
 ```
 
@@ -155,7 +155,7 @@ POST /login
 ```json
 {
   "email": "john@example.com",
-  "password": "password123"
+  "password": "<your_password>"
 }
 ```
 
@@ -165,7 +165,7 @@ curl -X POST http://localhost:3000/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "john@example.com",
-    "password": "password123"
+    "password": "<your_password>"
   }'
 ```
 
@@ -180,7 +180,7 @@ curl -X POST http://localhost:3000/login \
     "email": "john@example.com",
     "profilePic": "https://example.com/avatar.jpg"
   },
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  "token": "<jwt_token_here>"
 }
 ```
 
@@ -192,7 +192,7 @@ POST /google
 **Request Body:**
 ```json
 {
-  "credential": "google_oauth_token_here"
+  "credential": "<google_oauth_token_here>"
 }
 ```
 
@@ -201,7 +201,7 @@ POST /google
 curl -X POST http://localhost:3000/google \
   -H "Content-Type: application/json" \
   -d '{
-    "credential": "google_oauth_token_here"
+    "credential": "<google_oauth_token_here>"
   }'
 ```
 
@@ -222,7 +222,7 @@ Authorization: Bearer <jwt_token>
 **cURL Command:**
 ```bash
 curl -X GET http://localhost:3000/api/chat \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+  -H "Authorization: Bearer <your_jwt_token>"
 ```
 
 **Response:**
@@ -269,7 +269,7 @@ Authorization: Bearer <jwt_token>
 **cURL Command:**
 ```bash
 curl -X POST http://localhost:3000/api/chat \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Authorization: Bearer <your_jwt_token>" \
   -H "Content-Type: application/json" \
   -d '{
     "userId": "60f7b3b3b3b3b3b3b3b3b3b6"
@@ -297,7 +297,7 @@ Authorization: Bearer <jwt_token>
 **cURL Command:**
 ```bash
 curl -X POST http://localhost:3000/api/chat/group \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Authorization: Bearer <your_jwt_token>" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Project Team",
@@ -326,7 +326,7 @@ Authorization: Bearer <jwt_token>
 **cURL Command:**
 ```bash
 curl -X PUT http://localhost:3000/api/chat/rename \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Authorization: Bearer <your_jwt_token>" \
   -H "Content-Type: application/json" \
   -d '{
     "chatId": "60f7b3b3b3b3b3b3b3b3b3b4",
@@ -355,7 +355,7 @@ Authorization: Bearer <jwt_token>
 **cURL Command:**
 ```bash
 curl -X PUT http://localhost:3000/api/chat/groupadd \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Authorization: Bearer <your_jwt_token>" \
   -H "Content-Type: application/json" \
   -d '{
     "chatId": "60f7b3b3b3b3b3b3b3b3b3b4",
@@ -384,7 +384,7 @@ Authorization: Bearer <jwt_token>
 **cURL Command:**
 ```bash
 curl -X PUT http://localhost:3000/api/chat/groupremove \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Authorization: Bearer <your_jwt_token>" \
   -H "Content-Type: application/json" \
   -d '{
     "chatId": "60f7b3b3b3b3b3b3b3b3b3b4",
@@ -417,7 +417,7 @@ Authorization: Bearer <jwt_token>
 **cURL Command:**
 ```bash
 curl -X POST http://localhost:3000/api/message \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Authorization: Bearer <your_jwt_token>" \
   -H "Content-Type: application/json" \
   -d '{
     "chatId": "60f7b3b3b3b3b3b3b3b3b3b4",
@@ -460,7 +460,7 @@ Authorization: Bearer <jwt_token>
 **cURL Command:**
 ```bash
 curl -X GET http://localhost:3000/api/message/60f7b3b3b3b3b3b3b3b3b3b4 \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+  -H "Authorization: Bearer <your_jwt_token>"
 ```
 
 **Response:**
@@ -608,9 +608,9 @@ vercel --prod
 heroku create your-chat-app
 
 # Set environment variables
-heroku config:set MONGO_DB_URL=your_mongodb_url
-heroku config:set BASE_URL=your_frontend_url
-heroku config:set SECRET=your_jwt_secret
+heroku config:set MONGO_DB_URL=<your_mongodb_url>
+heroku config:set BASE_URL=<your_frontend_url>
+heroku config:set SECRET=<your_jwt_secret>
 
 # Deploy
 git push heroku main
@@ -633,7 +633,7 @@ curl -X POST http://localhost:3000/register \
   -d '{
     "name": "Test User",
     "email": "test@example.com",
-    "password": "password123"
+    "password": "<your_password>"
   }'
 
 # Login
@@ -641,7 +641,7 @@ curl -X POST http://localhost:3000/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "test@example.com",
-    "password": "password123"
+    "password": "<your_password>"
   }'
 ```
 
