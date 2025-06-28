@@ -27,10 +27,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/real-time-chat-app.git"
+    "url": "https://github.com/sash9696/real-time-chat-fullstack.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/real-time-chat-app/issues"
+    "url": "https://github.com/sash9696/real-time-chat-fullstack/issues"
   },
-  "homepage": "https://github.com/yourusername/real-time-chat-app#readme"
+  "homepage": "https://github.com/sash9696/real-time-chat-fullstack#readme"
 } 
