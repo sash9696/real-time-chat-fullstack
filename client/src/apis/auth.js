@@ -80,3 +80,25 @@ export const checkValid = async () => {
   }
 };
 
+export const logoutUser = async () => {
+  try {
+    const token = localStorage.getItem('userToken');
+    
+    // Call logout API
+    const { data } = await API(token).get('/auth/logout');
+    
+    // Clear local storage
+    localStorage.removeItem('userToken');
+    
+    // Redirect to login page
+    window.location.href = '/login';
+    
+    return data;
+  } catch (error) {
+    console.log("Error in logout api", error);
+    // Even if API fails, clear local storage and redirect
+    localStorage.removeItem('userToken');
+    window.location.href = '/login';
+  }
+};
+

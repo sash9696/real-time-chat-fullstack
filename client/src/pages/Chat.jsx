@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Model from '../components/Model';
 import { BsEmojiSmile, BsFillEmojiSmileFill } from "react-icons/bs";
+import { IoMdLogOut } from "react-icons/io";
 import MessageHistory from '../components/MessageHistory';
 import Typing from '../components/ui/Typing';
 import data from '@emoji-mart/data';
@@ -11,13 +12,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import io from "socket.io-client"; // commenting socket for now
 import { fetchMessages, sendMessage } from '../apis/message';
 import { fetchChats } from '../redux/chatsSlice';
+import { logoutUser } from '../apis/auth';
+import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
 
 // const ENDPOINT = process.env.REACT_APP_SERVER_URL;
 
-
 const ENDPOINT = 'http://localhost:3000/';
 let socket, selectedChatCompare;
-
 
 function Chat(props) {
   // Dummy active user
@@ -41,14 +43,9 @@ function Chat(props) {
   //   chatName: "Alice"
   // };
 
-  // Dummy notifications
-  const notifications = [];
-
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([
-    { _id: 1, sender: { name: "Alice" }, message: "Hello there!" },
-    { _id: 2, sender: { name: "Sahil Chopra" }, message: "Hi Alice!" }
-  ]);
+   ]);
 
   const [socketConnected, setSocketConnected] = useState(false);
 
@@ -58,6 +55,16 @@ function Chat(props) {
   const [showPicker, setShowPicker] = useState(false);
   
   const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      toast.success("Logout Successful!");
+    } catch (error) {
+      console.log("Logout error:", error);
+      toast.error("Logout failed, but you've been logged out locally");
+    }
+  };
 
   // setup a new socket connection from the client
 
@@ -94,7 +101,7 @@ useEffect(() => {
     }else{
       console.log('Adding message to current chat');
       setMessages((prev) => ([...prev, newMessageRecieved]))
-    };
+    }
 
     dispatch(fetchChats());
   });
@@ -167,7 +174,16 @@ useEffect(() => {
                   </h5>
                 </div>
               </div>
-              <div><Model /></div>
+              <div className='flex items-center gap-x-2'>
+                <Model />
+                <button 
+                  onClick={handleLogout}
+                  className='flex items-center gap-x-1 text-[#e44d4d] hover:text-[#c73e3e] transition-colors'
+                >
+                  <IoMdLogOut className='w-[20px] h-[20px]' />
+                  <span className='text-sm font-medium'>Logout</span>
+                </button>
+              </div>
             </div>
 
             <div className='scrollbar-hide w-[100%] h-[70vh] md:h-[66vh] lg:h-[69vh] flex flex-col overflow-y-scroll p-4'>
@@ -243,5 +259,14 @@ useEffect(() => {
     </>
   );
 }
+
+Chat.propTypes = {
+  className: PropTypes.string,
+  activeUser: PropTypes.shape({
+    name: PropTypes.string,
+    profilePic: PropTypes.string,
+    id: PropTypes.string,
+  }),
+};
 
 export default Chat;

@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { IoArrowBack } from "react-icons/io5"
 import { useDispatch, useSelector } from 'react-redux'
 import { IoMdLogOut } from "react-icons/io"
 import InputEdit from './profile/InputEdit'
-import { updateUser } from '../apis/auth'
+import { updateUser, logoutUser as logoutUserAPI } from '../apis/auth'
 import { toast } from 'react-toastify'
 import { setUserNameAndBio } from '../redux/activeUserSlice'
+import PropTypes from 'prop-types'
+
 function Profile(props) {
   const dispatch = useDispatch()
   const activeUser = useSelector((state) => state.activeUser)
@@ -13,10 +15,14 @@ function Profile(props) {
     name: activeUser.name,
     bio: activeUser.bio
   })
-  const logoutUser = () => {
-    toast.success("Logout Successfull!")
-    localStorage.removeItem("userToken")
-    window.location.href = "/login"
+  const logoutUser = async () => {
+    try {
+      await logoutUserAPI()
+      toast.success("Logout Successful!")
+    } catch (error) {
+      console.log("Logout error:", error)
+      toast.error("Logout failed, but you've been logged out locally")
+    }
   }
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -64,6 +70,10 @@ function Profile(props) {
       </div>
     </div>
   )
+}
+
+Profile.propTypes = {
+  className: PropTypes.string,
 }
 
 export default Profile

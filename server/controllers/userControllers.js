@@ -83,7 +83,28 @@ export const validUser = async (req, res) => {
 
 export const googleAuth = async (req, res) => {};
 
-export const logout = async (req, res) => {};
+export const logout = async (req, res) => {
+  try {
+    // Clear the user token cookie
+    res.clearCookie("userToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
+    });
+
+    // Return success response
+    res.status(200).json({ 
+      message: "Logged out successfully",
+      status: 200 
+    });
+  } catch (error) {
+    console.log('Logout error: ', error);
+    res.status(500).json({ 
+      error: "Error during logout",
+      status: 500 
+    });
+  }
+};
 
 export const searchUsers = async (req, res) => {
 
