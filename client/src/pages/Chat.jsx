@@ -11,7 +11,7 @@ import { getChatName } from '../utils';
 import { useDispatch, useSelector } from 'react-redux';
 import io from "socket.io-client"; // commenting socket for now
 import { fetchMessages, sendMessage } from '../apis/message';
-import { fetchChats } from '../redux/chatsSlice';
+import { fetchChats, setNotifications } from '../redux/chatsSlice';
 import { logoutUser } from '../apis/auth';
 import { toast } from 'react-toastify';
 import PropTypes from 'prop-types';
@@ -21,11 +21,12 @@ import PropTypes from 'prop-types';
 const ENDPOINT = 'http://localhost:3000/';
 let socket, selectedChatCompare;
 
+
 function Chat(props) {
   // Dummy active user
 
   const {activeUser} = props;
-  const {activeChat}  = useSelector((state) => state.chats);
+  const {activeChat, notifications}  = useSelector((state) => state.chats);
   // const {activeUser}  = useSelector((state) => state.activeUser);
 
   console.log('Chat',{activeChat,activeUser})
@@ -93,10 +94,13 @@ useEffect(() => {
    socket.on("stop typing", () => setIsTyping(false));
 
    socket.on('message received', (newMessageRecieved) => {
-    console.log('Message received via socket:', {newMessageRecieved})
+    console.log('Message received via socket:', {newMessageRecieved,notifications })
 
     if(!selectedChatCompare || selectedChatCompare._id !== newMessageRecieved.chatId._id){
       console.log('Message is for a different chat, not updating current chat');
+      if(!notifications.includes(newMessageRecieved)){
+        dispatch(setNotifications([newMessageRecieved,...notifications]))
+      }
       //send some notifications
     }else{
       console.log('Adding message to current chat');

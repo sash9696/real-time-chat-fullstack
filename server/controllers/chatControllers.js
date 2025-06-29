@@ -48,7 +48,11 @@ export const fetchAllChats = async (req, res) => {
   try {
     const chats = await Chat.find({
       // users:{$all:[a, b]},
-      users:req.rootUserId
+      // users:req.rootUserId
+      $or: [
+        {users: {$elemMatch: {$eq: req.rootUserId}}},
+        {groupAdmin: req.rootUserId}
+      ]
     })
       .populate("users")
       .populate("latestMessage")

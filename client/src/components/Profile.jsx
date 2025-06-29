@@ -7,9 +7,11 @@ import { updateUser, logoutUser as logoutUserAPI } from '../apis/auth'
 import { toast } from 'react-toastify'
 import { setUserNameAndBio } from '../redux/activeUserSlice'
 import PropTypes from 'prop-types'
+import { setShowProfile } from '../redux/profileSlice'
 
 function Profile(props) {
   const dispatch = useDispatch()
+  const {showProfile} = useSelector((state) => state.profile)
   const activeUser = useSelector((state) => state.activeUser)
   const [formData, setFormData] = useState({
     name: activeUser.name,
@@ -37,11 +39,11 @@ function Profile(props) {
 
   return (
 
-    <div  className={props.className}>
+    <div style={{transition: showProfile ? '0.3s ease-in-out' : ""}}  className={props.className}>
       <div className='absolute  w-[100%]'>
         <div className='bg-[#166e48] pt-12 pb-3'>
           <button className='flex items-center'>
-            <IoArrowBack style={{ color: "#fff", width: "30px", height: "20px" }} />
+            <IoArrowBack style={{ color: "#fff", width: "30px", height: "20px" }} onClick={() => dispatch(setShowProfile(false))} />
             <h6 className='text-[16px] text-[#fff] font-semibold'>Profile</h6>
           </button>
         </div>

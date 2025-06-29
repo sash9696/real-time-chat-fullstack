@@ -11,6 +11,7 @@ const initialState = {
 export const fetchChats = createAsyncThunk("redux/chats", async () => {
   try {
     const data = await fetchAllChats();
+    console.log('fetchChats',data)
     return data;
   } catch (error) {
     console.error("error fetching chats");

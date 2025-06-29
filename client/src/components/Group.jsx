@@ -2,15 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { BsPlusLg } from "react-icons/bs";
 import { RxCross2 } from "react-icons/rx";
 import { Modal, Box } from "@mui/material";
+import { searchUsers } from '../apis/auth';
+import { createGroup } from '../apis/chat';
+import { fetchChats } from '../redux/chatsSlice';
+import { useDispatch } from 'react-redux';
 
 // Dummy Search component
 const Search = ({ isLoading, handleClick, search, searchResults }) => {
+  console.log({searchResults})
   return (
     <div className="flex flex-col gap-y-2">
       {isLoading ? (
         <p className='text-sm text-gray-400'>Loading...</p>
       ) : (
-        searchResults.map((user) => (
+        searchResults?.map((user) => (
           <div
             key={user._id}
             onClick={() => handleClick(user)}
@@ -42,6 +47,7 @@ function Group() {
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [selectedUser, setSelectedUsers] = useState([]);
+  const dispatch = useDispatch();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -63,12 +69,22 @@ function Group() {
     setSelectedUsers(selectedUser.filter((u) => u._id !== user._id));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (selectedUser.length >= 2) {
-      console.log("Creating group with:", {
-        chatName,
-        users: selectedUser.map((u) => u._id),
-      });
+      // console.log("Creating group with:", {
+      //   chatName,
+      //   users: selectedUser.map((u) => u._id),
+      // });
+
+      await createGroup({chatName,
+
+        users: JSON.stringify(selectedUser.map((e) => e._id))
+
+       });
+
+       dispatch(fetchChats())
+
+
       handleClose();
     } else {
       alert("Please select at least 2 users");
@@ -76,21 +92,23 @@ function Group() {
   };
 
   useEffect(() => {
-    const searchChange = () => {
+    const searchChange = async () => {
       setIsLoading(true);
       // Simulate async API call
-      setTimeout(() => {
-        const dummyUsers = [
-          { _id: "1", name: "Alice" },
-          { _id: "2", name: "Bob" },
-          { _id: "3", name: "Charlie" },
-        ];
-        const filtered = dummyUsers.filter(user =>
-          user.name.toLowerCase().includes(search.toLowerCase())
-        );
-        setSearchResults(filtered);
+
+      const data = await searchUsers(search)
+      // setTimeout(() => {
+      //   const dummyUsers = [
+      //     { _id: "1", name: "Alice" },
+      //     { _id: "2", name: "Bob" },
+      //     { _id: "3", name: "Charlie" },
+      //   ];
+      //   const filtered = dummyUsers.filter(user =>
+      //     user.name.toLowerCase().includes(search.toLowerCase())
+      //   );
+        setSearchResults(data?.users);
         setIsLoading(false);
-      }, 500);
+      // }, 500);
     };
 
     if (search.trim()) {

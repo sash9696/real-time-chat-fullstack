@@ -19,6 +19,7 @@ import Group from '../components/Group.jsx';
 import Contacts from '../components/ui/Contacts.jsx';
 import Profile from '../components/Profile.jsx';
 import Search from '../components/Search.jsx';
+import { setShowNotifications, setShowProfile } from '../redux/profileSlice.js';
 
 
 
@@ -28,26 +29,30 @@ import Search from '../components/Search.jsx';
 
 function Home() {
   const dispatch = useDispatch();
-  const showProfile = false;
-  const showNotifications = true;
-  const notifications = [
-    {
-      chatId: {
-        isGroup: false,
-        chatName: "Dummy Chat",
-        users: [{ name: "Alice" }, { name: "Bob" }],
-      },
-      message: "Hey, this is a dummy message!",
-    },
-    {
-      chatId: {
-        isGroup: true,
-        chatName: "Frontend Squad",
-        users: [{ name: "Sahil" }, { name: "Frontend Devs" }],
-      },
-      message: "New update in the group!",
-    }
-  ];
+
+  const {showProfile, showNotifications} = useSelector((state) => state.profile);
+  const {notifications} = useSelector((state) => state.chats);
+
+  // const showProfile = false;
+  // const showNotifications = true;
+  // const notifications = [
+  //   {
+  //     chatId: {
+  //       isGroup: false,
+  //       chatName: "Dummy Chat",
+  //       users: [{ name: "Alice" }, { name: "Bob" }],
+  //     },
+  //     message: "Hey, this is a dummy message!",
+  //   },
+  //   {
+  //     chatId: {
+  //       isGroup: true,
+  //       chatName: "Frontend Squad",
+  //       users: [{ name: "Sahil" }, { name: "Frontend Devs" }],
+  //     },
+  //     message: "New update in the group!",
+  //   }
+  // ];
   
   const { activeUser } = useSelector((state) => state);
 
@@ -75,9 +80,6 @@ function Home() {
     searchChange(searchText);
     setSearch(searchText);
   };
-
-  const setShowNotifications = () => {}
-  const setShowProfile = () => {}
 
 
   
