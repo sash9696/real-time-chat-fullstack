@@ -14,7 +14,7 @@ import { BiNotification } from 'react-icons/bi';
 import { IoIosArrowDown } from 'react-icons/io';
 import NotificationBadge, { Effect } from 'react-notification-badge';
 
-import './home.css';
+import './Home.css';
 import Group from '../components/Group.jsx';
 import Contacts from '../components/ui/Contacts.jsx';
 import Profile from '../components/Profile.jsx';

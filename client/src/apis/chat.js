@@ -1,6 +1,6 @@
 import axios from "axios";
 
-let url = "http://localhost:3000";
+let url =  import.meta.env.VITE_API_URL;
 
 const API = (token) => (
   axios.create({

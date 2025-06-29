@@ -18,7 +18,8 @@ import PropTypes from 'prop-types';
 
 // const ENDPOINT = process.env.REACT_APP_SERVER_URL;
 
-const ENDPOINT = 'http://localhost:3000/';
+let ENDPOINT =  import.meta.env.VITE_API_URL;
+
 let socket, selectedChatCompare;
 
 
